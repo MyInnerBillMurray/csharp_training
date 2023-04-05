@@ -8,8 +8,6 @@ namespace WebAddressbookTests
         [Test]
         public void ContactCreationTest()
         {
-            //app.Navigator.GoToHomePage();
-            //app.Auth.Login(new AccountData("admin", "secret"));
             app.Navigator.GoToContactsPage();
             ContactData contact = new ContactData("FirstName", "LastName");
             contact.OtherFields = "default";
