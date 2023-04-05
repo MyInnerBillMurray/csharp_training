@@ -12,11 +12,12 @@ namespace WebAddressbookTests
     {
         public ContactHelper(ApplicationManager manager) : base(manager)
         {}
-        public void SubmitContactCreation()
+        public ContactHelper SubmitContactCreation(ContactData contact)
         {
             driver.FindElement(By.Name("submit")).Click();
+            return this;
         }
-        public void FillContactForm(ContactData contact)
+        public ContactHelper FillContactForm(ContactData contact)
         {
             driver.FindElement(By.Name("firstname")).Click();
             driver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
@@ -55,6 +56,7 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("notes")).SendKeys(contact.OtherFields);
             driver.FindElement(By.Name("phone2")).Click();
             driver.FindElement(By.Name("phone2")).SendKeys(contact.OtherFields);
+            return this;
         }
     }
 }
