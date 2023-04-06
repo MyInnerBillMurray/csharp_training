@@ -1,7 +1,9 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.DevTools.V109.Network;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,13 @@ namespace WebAddressbookTests
     {
         public ContactHelper(ApplicationManager manager) : base(manager)
         {}
+        public ContactHelper Remove(int v)
+        {
+            driver.FindElement(By.XPath("//input[@id='7']")).Click();
+            driver.FindElement(By.XPath("//input[@value=\'Delete\']")).Click();
+            Assert.That(driver.SwitchTo().Alert().Text, Is.EqualTo("Delete 1 addresses?"));
+            return this;
+        }
         public ContactHelper SubmitContactCreation(ContactData contact)
         {
             driver.FindElement(By.Name("submit")).Click();
@@ -56,6 +65,30 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("notes")).SendKeys(contact.OtherFields);
             driver.FindElement(By.Name("phone2")).Click();
             driver.FindElement(By.Name("phone2")).SendKeys(contact.OtherFields);
+            return this;
+        }
+        public ContactHelper Modify(int v, ContactData newData)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectContact(v);
+            FillContactForm(newData);
+            SubmitContactModification();
+            ReturnToHomePage();
+            return this;
+        }
+        public ContactHelper ReturnToHomePage()
+        {
+            driver.FindElement(By.LinkText("home page")).Click();
+            return this;
+        }
+        public ContactHelper SelectContact(int v)
+        {
+            driver.FindElement(By.XPath("//img[@alt=\'Edit\']")).Click();
+            return this;
+        }
+        public ContactHelper SubmitContactModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
             return this;
         }
     }
