@@ -14,9 +14,14 @@ namespace WebAddressbookTests
     {
         public ContactHelper(ApplicationManager manager) : base(manager)
         {}
+        public ContactHelper SelectContact(int v)
+        {
+            driver.FindElement(By.XPath("//img[@alt=\'Edit\']")).Click();
+            return this;
+        }
         public ContactHelper Remove(int v)
         {
-            driver.FindElement(By.XPath("//input[@id='7']")).Click();
+            driver.FindElement(By.Name("selected[]")).Click();
             driver.FindElement(By.XPath("//input[@value=\'Delete\']")).Click();
             Assert.That(driver.SwitchTo().Alert().Text, Is.EqualTo("Delete 1 addresses?"));
             return this;
@@ -67,10 +72,34 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("phone2")).SendKeys(contact.OtherFields);
             return this;
         }
+
+        public ContactHelper ClearContactForm()
+        {
+            driver.FindElement(By.Name("firstname")).Clear();
+            driver.FindElement(By.Name("middlename")).Clear();
+            driver.FindElement(By.Name("lastname")).Clear();
+            driver.FindElement(By.Name("nickname")).Clear();
+            driver.FindElement(By.Name("title")).Clear();
+            driver.FindElement(By.Name("company")).Clear();
+            driver.FindElement(By.Name("address")).Clear();
+            driver.FindElement(By.Name("home")).Clear();
+            driver.FindElement(By.Name("mobile")).Clear();
+            driver.FindElement(By.Name("work")).Clear();
+            driver.FindElement(By.Name("fax")).Clear();
+            driver.FindElement(By.Name("email")).Clear();
+            driver.FindElement(By.Name("email2")).Clear();
+            driver.FindElement(By.Name("email3")).Clear();
+            driver.FindElement(By.Name("homepage")).Clear();
+            driver.FindElement(By.Name("address2")).Clear();
+            driver.FindElement(By.Name("notes")).Clear();
+            driver.FindElement(By.Name("phone2")).Clear();
+            return this;
+        }
         public ContactHelper Modify(int v, ContactData newData)
         {
             manager.Navigator.GoToHomePage();
             SelectContact(v);
+            ClearContactForm();
             FillContactForm(newData);
             SubmitContactModification();
             ReturnToHomePage();
@@ -79,11 +108,6 @@ namespace WebAddressbookTests
         public ContactHelper ReturnToHomePage()
         {
             driver.FindElement(By.LinkText("home page")).Click();
-            return this;
-        }
-        public ContactHelper SelectContact(int v)
-        {
-            driver.FindElement(By.XPath("//img[@alt=\'Edit\']")).Click();
             return this;
         }
         public ContactHelper SubmitContactModification()
