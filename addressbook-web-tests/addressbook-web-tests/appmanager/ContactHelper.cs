@@ -24,6 +24,7 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("selected[]")).Click();
             driver.FindElement(By.XPath("//input[@value=\'Delete\']")).Click();
             Assert.That(driver.SwitchTo().Alert().Text, Is.EqualTo("Delete 1 addresses?"));
+            driver.SwitchTo().Alert().Accept();
             return this;
         }
         public ContactHelper SubmitContactCreation(ContactData contact)
