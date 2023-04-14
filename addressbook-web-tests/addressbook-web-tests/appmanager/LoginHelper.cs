@@ -12,11 +12,8 @@ namespace WebAddressbookTests
         public LoginHelper(ApplicationManager manager) : base(manager) { }
         public void Login(AccountData account)
         {
-            driver.Manage().Window.Size = new System.Drawing.Size(1550, 838);
-            driver.FindElement(By.Name("user")).SendKeys(account.Username);
-            driver.FindElement(By.Name("pass")).Click();
-            driver.FindElement(By.Name("pass")).SendKeys(account.Password);
-            driver.FindElement(By.Id("LoginForm")).Click();
+            Type(By.Name("user"), account.Username);
+            Type(By.Name("pass"), account.Password);
             driver.FindElement(By.XPath("//input[@value=\'Login\']")).Click();
         }
     }

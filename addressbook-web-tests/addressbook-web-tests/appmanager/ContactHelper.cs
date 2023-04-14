@@ -34,43 +34,24 @@ namespace WebAddressbookTests
         }
         public ContactHelper FillContactForm(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).Click();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
-            driver.FindElement(By.Name("middlename")).Click();
-            driver.FindElement(By.Name("middlename")).Click();
-            driver.FindElement(By.Name("middlename")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("lastname")).Click();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.LastName);
-            driver.FindElement(By.Name("nickname")).Click();
-            driver.FindElement(By.Name("nickname")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("title")).Click();
-            driver.FindElement(By.Name("title")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("company")).Click();
-            driver.FindElement(By.Name("company")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("address")).Click();
-            driver.FindElement(By.Name("address")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("home")).Click();
-            driver.FindElement(By.Name("home")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("mobile")).Click();
-            driver.FindElement(By.Name("mobile")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("work")).Click();
-            driver.FindElement(By.Name("work")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("fax")).Click();
-            driver.FindElement(By.Name("fax")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("email")).Click();
-            driver.FindElement(By.Name("email")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("email2")).Click();
-            driver.FindElement(By.Name("email2")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("email3")).Click();
-            driver.FindElement(By.Name("email3")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("homepage")).Click();
-            driver.FindElement(By.Name("homepage")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("address2")).Click();
-            driver.FindElement(By.Name("address2")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("notes")).Click();
-            driver.FindElement(By.Name("notes")).SendKeys(contact.OtherFields);
-            driver.FindElement(By.Name("phone2")).Click();
-            driver.FindElement(By.Name("phone2")).SendKeys(contact.OtherFields);
+            Type(By.Name("firstname"), contact.FirstName);
+            Type(By.Name("middlename"), contact.OtherFields);
+            Type(By.Name("lastname"), contact.LastName);
+            Type(By.Name("nickname"), contact.OtherFields);
+            Type(By.Name("title"), contact.OtherFields);
+            Type(By.Name("company"), contact.OtherFields);
+            Type(By.Name("address"), contact.OtherFields);
+            Type(By.Name("home"), contact.OtherFields);
+            Type(By.Name("mobile"), contact.OtherFields);
+            Type(By.Name("work"), contact.OtherFields);
+            Type(By.Name("fax"), contact.OtherFields);
+            Type(By.Name("email"), contact.OtherFields);
+            Type(By.Name("email2"), contact.OtherFields);
+            Type(By.Name("email3"), contact.OtherFields);
+            Type(By.Name("homepage"), contact.OtherFields);
+            Type(By.Name("address2"), contact.OtherFields);
+            Type(By.Name("notes"), contact.OtherFields);
+            Type(By.Name("phone2"), contact.OtherFields);
             return this;
         }
 
