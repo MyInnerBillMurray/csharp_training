@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.DevTools.V109.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
