@@ -30,7 +30,6 @@ namespace WebAddressbookTests
         }
         public ContactHelper Remove(int v)
         {
-            ConfirmContactExists();
             driver.FindElement(By.Name("selected[]")).Click();
             driver.FindElement(By.XPath("//input[@value=\'Delete\']")).Click();
             Assert.That(driver.SwitchTo().Alert().Text, Is.EqualTo("Delete 1 addresses?"));
@@ -90,7 +89,6 @@ namespace WebAddressbookTests
         public ContactHelper Modify(int v, ContactData newData)
         {
             manager.Navigator.GoToHomePage();
-            ConfirmContactExists();
             SelectContact(v);
             ClearContactForm();
             FillContactForm(newData);

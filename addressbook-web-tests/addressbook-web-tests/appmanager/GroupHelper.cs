@@ -25,7 +25,6 @@ namespace WebAddressbookTests
         public GroupHelper Modify(int v, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            ConfirmGroupExists();
             SelectGroup(v);
             InitGroupModification();
             ClearGroupForm();
@@ -37,7 +36,6 @@ namespace WebAddressbookTests
         public GroupHelper Remove(int v)
         {
             manager.Navigator.GoToGroupsPage();
-            ConfirmGroupExists();
             SelectGroup(v);
             RemoveGroup();
             ReturnToGroupsPage();
@@ -96,7 +94,7 @@ namespace WebAddressbookTests
 
         public GroupHelper ConfirmGroupExists()
         {
-            if (driver.Url == baseURL + "/group.php" && ! IsElementPresent(By.Name("selected[]")))
+            if (! IsElementPresent(By.Name("selected[]")))
             {
                 Create(new GroupData("test1"));
             }
