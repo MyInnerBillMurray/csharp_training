@@ -9,8 +9,9 @@ namespace WebAddressbookTests
 {
     public class GroupHelper : HelperBase
     {
-        public GroupHelper(ApplicationManager manager) : base(manager)
-        {}
+        private string baseURL;
+        public GroupHelper(ApplicationManager manager, string baseURL) : base(manager)
+        { this.baseURL = baseURL; }
 
         public GroupHelper Create(GroupData group)
         {
@@ -24,6 +25,7 @@ namespace WebAddressbookTests
         public GroupHelper Modify(int v, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
+            ConfirmGroupExists();
             SelectGroup(v);
             InitGroupModification();
             ClearGroupForm();
@@ -35,6 +37,7 @@ namespace WebAddressbookTests
         public GroupHelper Remove(int v)
         {
             manager.Navigator.GoToGroupsPage();
+            ConfirmGroupExists();
             SelectGroup(v);
             RemoveGroup();
             ReturnToGroupsPage();
@@ -88,6 +91,15 @@ namespace WebAddressbookTests
         public GroupHelper InitGroupModification()
         {
             driver.FindElement(By.Name("edit")).Click();
+            return this;
+        }
+
+        public GroupHelper ConfirmGroupExists()
+        {
+            if (driver.Url == baseURL + "/group.php" && ! IsElementPresent(By.Name("selected[]")))
+            {
+                Create(new GroupData("test1"));
+            }
             return this;
         }
     }
