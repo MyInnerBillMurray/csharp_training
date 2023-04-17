@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -113,6 +114,19 @@ namespace WebAddressbookTests
                 Create(new ContactData("FirstName", "LastName"));
             }
             return this;
+        }
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            manager.Navigator.GoToContactsPage();
+            ICollection<IWebElement> elements 
+                = driver.FindElements(By.CssSelector("#maintable > tbody:nth-child(1) > [name=\"entry\"]"));
+
+            foreach (IWebElement element in elements)
+            {
+                contacts.Add(new ContactData(element.Text, null));
+            }
+            return contacts;
         }
     }
 }
