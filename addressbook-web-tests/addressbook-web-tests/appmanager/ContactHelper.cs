@@ -109,6 +109,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper ConfirmContactExists()
         {
+            manager.Navigator.GoToContactsPage();
             if (!IsElementPresent(By.Name("selected[]")))
             {
                 Create(new ContactData("FirstName", "LastName"));
