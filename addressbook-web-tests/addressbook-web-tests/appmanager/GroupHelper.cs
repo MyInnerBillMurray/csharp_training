@@ -95,6 +95,7 @@ namespace WebAddressbookTests
 
         public GroupHelper ConfirmGroupExists()
         {
+            manager.Navigator.GoToGroupsPage();
             if (! IsElementPresent(By.Name("selected[]")))
             {
                 Create(new GroupData("test1"));
