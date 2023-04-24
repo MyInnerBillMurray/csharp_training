@@ -119,7 +119,7 @@ namespace WebAddressbookTests
         public List<ContactData> GetContactList()
         {
             List<ContactData> contacts = new List<ContactData>();
-            manager.Navigator.GoToContactsPage();
+            manager.Navigator.GoToHomePage();
             ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
             foreach (IWebElement element in elements)
             {
