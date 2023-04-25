@@ -12,7 +12,7 @@ namespace WebAddressbookTests
         {
             app.Navigator.GoToHomePage();
             List<ContactData> oldContacts = app.Contacts.GetContactList();
-            app.Navigator.GoToContactsPage();
+            app.Contacts.InitContactCreation();
             ContactData contact = new ContactData("FirstName", "LastName");
             contact.OtherFields = "default";
             app.Contacts.FillContactForm(contact);

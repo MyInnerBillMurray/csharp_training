@@ -19,26 +19,45 @@ namespace WebAddressbookTests
         public ContactHelper Create(ContactData contact)
         {
             manager.Navigator.GoToContactsPage();
+            InitContactCreation();
             FillContactForm(contact);
             SubmitContactCreation(contact);
             ReturnToHomePage();
             return this;
         }
-        public ContactHelper SelectContact(int v)
+       
+        public ContactHelper Remove(int v)
+        {
+            SelectContact();
+            RemoveContact();
+            contactCache = null;
+            Assert.That(driver.SwitchTo().Alert().Text, Is.EqualTo("Delete 1 addresses?"));
+            driver.SwitchTo().Alert().Accept();
+            return this;
+        }
+
+        public ContactHelper SelectContact()
+        {
+            driver.FindElement(By.Name("selected[]")).Click();
+            return this;
+        }
+
+        public ContactHelper RemoveContact()
+        {
+            driver.FindElement(By.XPath("//input[@value=\'Delete\']")).Click();
+            return this;
+        }
+        public ContactHelper InitContactCreation()
+        {
+            driver.FindElement(By.LinkText("add new")).Click();
+            return this;
+        }
+        public ContactHelper InitContactModification(int v)
         {
             driver.FindElements(By.Name("entry"))[v]
                 .FindElements(By.TagName("td"))[7]
                 .FindElement(By.TagName("a"))
                 .Click();
-            return this;
-        }
-        public ContactHelper Remove(int v)
-        {
-            driver.FindElement(By.Name("selected[]")).Click();
-            driver.FindElement(By.XPath("//input[@value=\'Delete\']")).Click();
-            contactCache = null;
-            Assert.That(driver.SwitchTo().Alert().Text, Is.EqualTo("Delete 1 addresses?"));
-            driver.SwitchTo().Alert().Accept();
             return this;
         }
         public ContactHelper SubmitContactCreation(ContactData contact)
@@ -95,7 +114,7 @@ namespace WebAddressbookTests
         public ContactHelper Modify(int v, ContactData newData)
         {
             manager.Navigator.GoToHomePage();
-            SelectContact(v);
+            InitContactModification(v);
             ClearContactForm();
             FillContactForm(newData);
             SubmitContactModification();
@@ -163,7 +182,7 @@ namespace WebAddressbookTests
         public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.GoToHomePage();
-            SelectContact(0);
+            InitContactModification(0);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");

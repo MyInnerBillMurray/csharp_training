@@ -30,7 +30,7 @@ namespace WebAddressbookTests
         }
         public void GoToContactsPage()
         {
-            driver.FindElement(By.LinkText("add new")).Click();
+            driver.FindElement(By.LinkText("home")).Click();
         }
     }
 }
