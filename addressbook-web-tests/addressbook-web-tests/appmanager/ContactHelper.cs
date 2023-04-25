@@ -52,9 +52,9 @@ namespace WebAddressbookTests
             driver.FindElement(By.LinkText("add new")).Click();
             return this;
         }
-        public ContactHelper InitContactModification(int v)
+        public ContactHelper InitContactModification(int index)
         {
-            driver.FindElements(By.Name("entry"))[v]
+            driver.FindElements(By.Name("entry"))[index]
                 .FindElements(By.TagName("td"))[7]
                 .FindElement(By.TagName("a"))
                 .Click();
@@ -134,7 +134,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper ConfirmContactExists()
         {
-            manager.Navigator.GoToContactsPage();
+            manager.Navigator.GoToHomePage();
             if (!IsElementPresent(By.Name("selected[]")))
             {
                 Create(new ContactData("FirstName", "LastName"));
@@ -186,9 +186,10 @@ namespace WebAddressbookTests
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
-            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string homePhone1= driver.FindElement(By.Name("home")).GetAttribute("value");
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string homePhone2 = driver.FindElement(By.Name("phone2")).GetAttribute("value");
             string email1 = driver.FindElement(By.Name("email")).GetAttribute("value");
             string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
@@ -196,9 +197,10 @@ namespace WebAddressbookTests
             return new ContactData(firstName, lastName)
             {
                 Address = address,
-                HomePhone = homePhone,
+                HomePhone1 = homePhone1,
                 MobilePhone = mobilePhone,
                 WorkPhone = workPhone,
+                HomePhone2 = homePhone2,
                 Email1 = email1,
                 Email2 = email2,
                 Email3 = email3

@@ -55,11 +55,13 @@ namespace WebAddressbookTests
 
         public string Address { get; set; }
 
-        public string HomePhone { get; set; }
+        public string HomePhone1 { get; set; }
 
         public string MobilePhone { get; set; }
 
         public string WorkPhone { get; set; }
+
+        public string HomePhone2 { get; set; }
 
         public string AllPhones 
         { 
@@ -71,7 +73,7 @@ namespace WebAddressbookTests
                 }
                 else 
                 {
-                    return CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone).Trim();
+                    return CleanUp(HomePhone1) + CleanUp(MobilePhone) + CleanUp(WorkPhone) + CleanUp(HomePhone2).Trim();
                 }
             }
             set
