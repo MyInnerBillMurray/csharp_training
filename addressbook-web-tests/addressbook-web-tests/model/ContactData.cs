@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace WebAddressbookTests
 {
@@ -11,6 +9,7 @@ namespace WebAddressbookTests
         private string otherFields = "";
         private string allPhones;
         private string allEmails;
+        private string allInfo;
 
         public ContactData(string firstName, string lastName) 
         {
@@ -50,18 +49,23 @@ namespace WebAddressbookTests
         }
 
         public string FirstName { get; set; }
-
+        public string Middlename { get; set; }
         public string LastName { get; set; }
-
+        public string Nickname { get; set; }
+        public string Title { get; set; }
+        public string Company { get; set; }
         public string Address { get; set; }
-
         public string HomePhone1 { get; set; }
-
         public string MobilePhone { get; set; }
-
         public string WorkPhone { get; set; }
-
+        public string Fax { get; set; }
+        public string Email1 { get; set; }
+        public string Email2 { get; set; }
+        public string Email3 { get; set; }
+        public string Homepage { get; set; }
+        public string Address2 { get; set; }
         public string HomePhone2 { get; set; }
+        public string Notes { get; set; }
 
         public string AllPhones 
         { 
@@ -73,7 +77,8 @@ namespace WebAddressbookTests
                 }
                 else 
                 {
-                    return CleanUp(HomePhone1 + MobilePhone + WorkPhone + HomePhone2).Trim();
+                    return CleanUp(HomePhone1) + CleanUp(MobilePhone) 
+                        + CleanUp(WorkPhone) + CleanUp(HomePhone2).Trim();
                 }
             }
             set
@@ -82,20 +87,40 @@ namespace WebAddressbookTests
             }
         }
 
+        public string AllInfo
+        {
+            get
+            {
+                if (allInfo != null)
+                {
+                    return allInfo;
+                }
+                else
+                {
+                    return FirstName + " " + Middlename + " " + LastName + "\r\n"
+                        + Nickname + "\r\n" + Title + "\r\n" + Company + "\r\n" + Address + "\r\n" + "\r\n"
+                        + "H: " + HomePhone1 + "\r\n" + "M: " + MobilePhone + "\r\n" + "W: " + WorkPhone
+                            + "\r\n" + "F: " + Fax + "\r\n" + "\r\n"
+                        + Email1 + "\r\n" + Email2 + "\r\n" + Email3 + "\r\n"
+                        + "Homepage:" + "\r\n" + Homepage + "\r\n" + "\r\n" + "\r\n"
+                        + Address2 + "\r\n" + "\r\n"
+                        + "P: " + HomePhone2 + "\r\n" + "\r\n"
+                        + Notes;
+                }
+            }
+            set
+            {
+                allInfo = value;
+            }
+        }
         private string CleanUp(string phone)
         {
             if (phone == null || phone == "")
             {
                 return "";
             }
-            return phone.Replace(" ","").Replace("-","").Replace("(","").Replace(")", "") + "\r\n";
+            return Regex.Replace(phone, "[ -()]", "") + "\r\n";
         }
-
-        public string Email1 { get; set; }
-
-        public string Email2 { get; set; }
-
-        public string Email3 { get; set; }
 
         public string AllEmails 
         { 
@@ -107,7 +132,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return CleanUpEmails(Email1 + Email2 + Email3).Trim();
+                    return CleanUpEmails(Email1) + CleanUpEmails(Email2) + CleanUpEmails(Email3).Trim();
                 }
             }
             set
