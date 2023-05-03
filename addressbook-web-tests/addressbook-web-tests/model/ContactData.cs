@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -11,7 +13,7 @@ namespace WebAddressbookTests
         private string allEmails;
         private string allInfo;
 
-        public ContactData(string firstName, string lastName) 
+        public ContactData(string firstName, string lastName)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -22,7 +24,7 @@ namespace WebAddressbookTests
             if (Object.ReferenceEquals(other, null)) return false;
             if (Object.ReferenceEquals(this, other)) return true;
             return LastName == other.LastName && FirstName == other.FirstName;
-                 
+
         }
 
         public override int GetHashCode()
@@ -67,18 +69,18 @@ namespace WebAddressbookTests
         public string HomePhone2 { get; set; }
         public string Notes { get; set; }
 
-        public string AllPhones 
-        { 
+        public string AllPhones
+        {
             get
             {
-                if (allPhones != null) 
+                if (allPhones != null)
                 {
                     return allPhones;
                 }
-                else 
+                else
                 {
-                    return CleanUp(HomePhone1) + CleanUp(MobilePhone) 
-                        + CleanUp(WorkPhone) + CleanUp(HomePhone2).Trim();
+                    return (CleanUpPhones(HomePhone1) + CleanUpPhones(MobilePhone)
+                        + CleanUpPhones(WorkPhone) + CleanUpPhones(HomePhone2)).Trim();
                 }
             }
             set
@@ -97,15 +99,15 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return FirstName + " " + Middlename + " " + LastName + "\r\n"
-                        + Nickname + "\r\n" + Title + "\r\n" + Company + "\r\n" + Address + "\r\n" + "\r\n"
-                        + "H: " + HomePhone1 + "\r\n" + "M: " + MobilePhone + "\r\n" + "W: " + WorkPhone
-                            + "\r\n" + "F: " + Fax + "\r\n" + "\r\n"
-                        + Email1 + "\r\n" + Email2 + "\r\n" + Email3 + "\r\n"
-                        + "Homepage:" + "\r\n" + Homepage + "\r\n" + "\r\n" + "\r\n"
-                        + Address2 + "\r\n" + "\r\n"
-                        + "P: " + HomePhone2 + "\r\n" + "\r\n"
-                        + Notes;
+                    return (CheckNames(CleanUpNames(FirstName) + CleanUpNames(Middlename) + CleanUp(LastName))
+                        + CleanUp(Nickname) + CleanUp(Title) + CleanUp(Company) + CleanUpAddress(Address)
+                        + CleanUp(CleanUpHomePhone1(HomePhone1) + CleanUpMobilePhone(MobilePhone)
+                            + CleanUpWorkPhone(WorkPhone) + CleanUpFax(Fax))
+                        + CleanUp(CleanUp(Email1) + CleanUp(Email2) + CleanUp(Email3)
+                        + CleanUpHomepage(Homepage))
+                        + CleanUpAddress(Address2)
+                        + CleanUpHomePhone2(HomePhone2)
+                        + CleanUp(Notes)).Trim();
                 }
             }
             set
@@ -113,7 +115,7 @@ namespace WebAddressbookTests
                 allInfo = value;
             }
         }
-        private string CleanUp(string phone)
+        private string CleanUpPhones(string phone)
         {
             if (phone == null || phone == "")
             {
@@ -122,8 +124,8 @@ namespace WebAddressbookTests
             return Regex.Replace(phone, "[ -()]", "") + "\r\n";
         }
 
-        public string AllEmails 
-        { 
+        public string AllEmails
+        {
             get
             {
                 if (allEmails != null)
@@ -132,7 +134,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return CleanUpEmails(Email1) + CleanUpEmails(Email2) + CleanUpEmails(Email3).Trim();
+                    return (CleanUp(Email1) + CleanUp(Email2) + CleanUp(Email3)).Trim();
                 }
             }
             set
@@ -141,13 +143,94 @@ namespace WebAddressbookTests
             }
         }
 
-        private string CleanUpEmails(string email)
+        private string CleanUp(string email)
         {
             if (email == null || email == "")
             {
                 return "";
             }
             return email + "\r\n";
+        }
+
+        private string CleanUpNames(string name)
+        {
+            if (name == null || name == "")
+            {
+                return "";
+            }      
+            return name + " ";
+        }
+
+        private string CheckNames(string names)
+        {
+            if (FirstName == null || FirstName == "" || Middlename == null || Middlename == "" || LastName == null || LastName == "")
+            {
+                return names + "\r\n";
+            }
+            return names;
+        }
+
+        private string CleanUpHomePhone1(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "H: " + phone + "\r\n";
+        }
+
+        private string CleanUpMobilePhone(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "M: " + phone + "\r\n";
+        }
+
+        private string CleanUpWorkPhone(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "W: " + phone + "\r\n";
+        }
+
+        private string CleanUpFax(string fax)
+        {
+            if (fax == null || fax == "")
+            {
+                return "";
+            }
+            return "F: " + fax + "\r\n";
+        }
+
+        private string CleanUpHomePhone2(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "P: " + phone + "\r\n" + "\r\n";
+        }
+
+        private string CleanUpAddress(string address)
+        {
+            if (address == null || address == "")
+            {
+                return "";
+            }
+            return address + "\r\n" + "\r\n";
+        }
+
+        private string CleanUpHomepage(string homepage)
+        {
+            if (homepage == null || homepage == "")
+            {
+                return "";
+            }
+            return "Homepage:" + "\r\n" + Homepage + "\r\n" + "\r\n";
         }
 
         public string OtherFields { get { return otherFields; } set { otherFields = value; } }
