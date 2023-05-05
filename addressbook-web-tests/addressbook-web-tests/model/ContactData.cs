@@ -99,8 +99,8 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (CheckNames(CleanUpNames(FirstName) + CleanUpNames(Middlename) + CleanUp(LastName))
-                        + CleanUp(Nickname) + CleanUp(Title) + CleanUp(Company) + CleanUpAddress(Address)
+                    return (CheckNames(CleanUpNames(FirstName) + CleanUpNames(Middlename) + CleanUpNames(LastName).Trim())
+                        + CheckTab(CleanUp(Nickname) + CleanUp(Title) + CleanUp(Company) + CleanUpAddress(Address))
                         + CleanUp(CleanUpHomePhone1(HomePhone1) + CleanUpMobilePhone(MobilePhone)
                             + CleanUpWorkPhone(WorkPhone) + CleanUpFax(Fax))
                         + CleanUp(CleanUp(Email1) + CleanUp(Email2) + CleanUp(Email3)
@@ -168,6 +168,15 @@ namespace WebAddressbookTests
                 return names + "\r\n";
             }
             return names;
+        }
+
+        private string CheckTab(string entry)
+        {
+            if (entry == null || entry == "")
+            {
+                return "\r\n" + entry;
+            }
+            return entry;
         }
 
         private string CleanUpHomePhone1(string phone)
