@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -99,8 +101,8 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (CheckNames(CleanUpNames(FirstName) + CleanUpNames(Middlename) + CleanUpNames(LastName).Trim())
-                        + CheckTab(CleanUp(Nickname) + CleanUp(Title) + CleanUp(Company) + CleanUpAddress(Address))
+                    return (CleanUpNames(FirstName) + CleanUpNames(Middlename) + CleanUp(LastName)
+                        + CheckTab(CleanUp(Nickname) + CleanUp(Title) + CleanUp(Company) + CleanUp(Address))
                         + CleanUp(CleanUpHomePhone1(HomePhone1) + CleanUpMobilePhone(MobilePhone)
                             + CleanUpWorkPhone(WorkPhone) + CleanUpFax(Fax))
                         + CleanUp(CleanUp(Email1) + CleanUp(Email2) + CleanUp(Email3)
@@ -161,22 +163,14 @@ namespace WebAddressbookTests
             return name + " ";
         }
 
-        private string CheckNames(string names)
-        {
-            if (FirstName == null || FirstName == "" || Middlename == null || Middlename == "" || LastName == null || LastName == "")
-            {
-                return names + "\r\n";
-            }
-            return names;
-        }
-
         private string CheckTab(string entry)
         {
-            if (entry == null || entry == "")
+            if (Nickname == null && Nickname == "" && Title == null && Title == "" 
+                && Company == null && Company == "" && Address == null && Address == "")
             {
-                return "\r\n" + entry;
+                return "\r\n" + "\r\n";
             }
-            return entry;
+            return entry + "\r\n";
         }
 
         private string CleanUpHomePhone1(string phone)
