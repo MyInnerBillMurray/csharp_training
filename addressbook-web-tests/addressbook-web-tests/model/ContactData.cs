@@ -5,9 +5,12 @@ using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Linq;
+using LinqToDB.Mapping;
 
 namespace WebAddressbookTests
 {
+    [Table(Name = "addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string otherFields = "";
@@ -54,24 +57,62 @@ namespace WebAddressbookTests
             return LastName.CompareTo(other.LastName);
         }
 
+        [Column(Name = "firstname")]
         public string FirstName { get; set; }
+
+        [Column(Name = "middlename")]
         public string Middlename { get; set; }
+
+        [Column(Name = "lastname")]
         public string LastName { get; set; }
+
+        [Column(Name = "nickname")]
         public string Nickname { get; set; }
+
+        [Column(Name = "title")]
         public string Title { get; set; }
+
+        [Column(Name = "company")]
         public string Company { get; set; }
+
+        [Column(Name = "address")]
         public string Address { get; set; }
+
+        [Column(Name = "home")]
         public string HomePhone1 { get; set; }
+
+        [Column(Name = "mobile")]
         public string MobilePhone { get; set; }
+
+        [Column(Name = "work")]
         public string WorkPhone { get; set; }
+
+        [Column(Name = "fax")]
         public string Fax { get; set; }
+
+        [Column(Name = "email")]
         public string Email1 { get; set; }
+
+        [Column(Name = "email2")]
         public string Email2 { get; set; }
+
+        [Column(Name = "email3")]
         public string Email3 { get; set; }
+
+        [Column(Name = "homepage")]
         public string Homepage { get; set; }
+
+        [Column(Name = "address2")]
         public string Address2 { get; set; }
+
+        [Column(Name = "phone2")]
         public string HomePhone2 { get; set; }
+
+        [Column(Name = "notes")]
         public string Notes { get; set; }
+
+        [Column(Name = "id"), PrimaryKey, Identity]
+        public string Id { get; set; }
 
         public string AllPhones
         {
@@ -239,5 +280,13 @@ namespace WebAddressbookTests
         }
 
         public string OtherFields { get { return otherFields; } set { otherFields = value; } }
+
+        public static List<ContactData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts select c).ToList();
+            }
+        }
     }
 }

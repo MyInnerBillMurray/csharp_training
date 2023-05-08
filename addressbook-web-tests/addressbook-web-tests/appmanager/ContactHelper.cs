@@ -1,9 +1,11 @@
-﻿using NUnit.Framework;
+﻿using Google.Protobuf.WellKnownTypes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -27,7 +29,8 @@ namespace WebAddressbookTests
 
         public ContactHelper Remove(int v)
         {
-            SelectContact();
+            manager.Navigator.GoToContactsPage();
+            SelectContact(v);
             RemoveContact();
             contactCache = null;
             Assert.That(driver.SwitchTo().Alert().Text, Is.EqualTo("Delete 1 addresses?"));
@@ -35,15 +38,33 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper SelectContact()
+        public ContactHelper Remove(ContactData contact)
+        {
+            manager.Navigator.GoToContactsPage();
+            SelectContact(contact.Id);
+            RemoveContact();
+            contactCache = null;
+            Assert.That(driver.SwitchTo().Alert().Text, Is.EqualTo("Delete 1 addresses?"));
+            driver.SwitchTo().Alert().Accept();
+            return this;
+        }
+
+        public ContactHelper SelectContact(int v)
         {
             driver.FindElement(By.Name("selected[]")).Click();
+            return this;
+        }
+
+        public ContactHelper SelectContact(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name=\'selected[]\' and @value='"+id+"'])")).Click();
             return this;
         }
 
         public ContactHelper RemoveContact()
         {
             driver.FindElement(By.XPath("//input[@value=\'Delete\']")).Click();
+            contactCache = null;
             return this;
         }
         public ContactHelper InitContactCreation()
