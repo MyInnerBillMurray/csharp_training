@@ -49,9 +49,10 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper SelectContact(int v)
+        public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.Name("selected[]")).Click();
+            //driver.FindElement(By.Name("selected[]")).Click();
+            driver.FindElement(By.XPath("(//input[@name=\'selected[]\'])[" + (index + 1) + "]")).Click();
             return this;
         }
 

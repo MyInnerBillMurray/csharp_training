@@ -111,7 +111,7 @@ namespace WebAddressbookTests
         [Column(Name = "notes")]
         public string Notes { get; set; }
 
-        [Column(Name = "id"), PrimaryKey, Identity]
+        [Column(Name = "id"), PrimaryKey]
         public string Id { get; set; }
 
         public string AllPhones
