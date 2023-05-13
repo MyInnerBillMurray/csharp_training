@@ -35,6 +35,7 @@ namespace WebAddressbookTests
             contactCache = null;
             Assert.That(driver.SwitchTo().Alert().Text, Is.EqualTo("Delete 1 addresses?"));
             driver.SwitchTo().Alert().Accept();
+            driver.FindElement(By.CssSelector("div.msgbox"));
             return this;
         }
 
@@ -46,6 +47,7 @@ namespace WebAddressbookTests
             contactCache = null;
             Assert.That(driver.SwitchTo().Alert().Text, Is.EqualTo("Delete 1 addresses?"));
             driver.SwitchTo().Alert().Accept();
+            driver.FindElement(By.CssSelector("div.msgbox"));
             return this;
         }
 
@@ -81,6 +83,16 @@ namespace WebAddressbookTests
                 .Click();
             return this;
         }
+
+        public ContactHelper InitContactModification(string id)
+        {
+            driver.FindElement(By.XPath("//input[@name=\'selected[]\' and @value='"+id+"']"))
+                .FindElement(By.XPath("./../.."))
+                .FindElements(By.TagName("td"))[7]
+                .FindElement(By.TagName("a")).Click();
+            return this;
+        }
+
         public ContactHelper OpenContactDetails(int index)
         {
             driver.FindElements(By.Name("entry"))[index]
@@ -144,6 +156,16 @@ namespace WebAddressbookTests
         {
             manager.Navigator.GoToHomePage();
             InitContactModification(v);
+            ClearContactForm();
+            FillContactForm(newData);
+            SubmitContactModification();
+            ReturnToHomePage();
+            return this;
+        }
+        public ContactHelper Modify(ContactData contact, ContactData newData)
+        {
+            manager.Navigator.GoToHomePage();
+            InitContactModification(contact.Id);
             ClearContactForm();
             FillContactForm(newData);
             SubmitContactModification();

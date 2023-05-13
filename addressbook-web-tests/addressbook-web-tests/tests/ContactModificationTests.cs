@@ -13,9 +13,10 @@ namespace WebAddressbookTests
             ContactData newData = new ContactData("NewFirstName", "NewLastName");
             newData.OtherFields = "other";
             app.Contacts.ConfirmContactExists();
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
-            app.Contacts.Modify(0, newData);
-            List<ContactData> newContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
+            ContactData toBeModified = oldContacts[0];
+            app.Contacts.Modify(toBeModified, newData);
+            List<ContactData> newContacts = ContactData.GetAll();
             oldContacts[0].LastName = newData.LastName;
             oldContacts[0].FirstName = newData.FirstName;
             oldContacts.Sort();

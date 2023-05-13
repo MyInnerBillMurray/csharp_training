@@ -33,6 +33,18 @@ namespace WebAddressbookTests
             ReturnToGroupsPage();
             return this;
         }
+
+        public GroupHelper Modify(GroupData group, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(group.Id);
+            InitGroupModification();
+            ClearGroupForm();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            return this;
+        }
         public GroupHelper Remove(int v)
         {
             manager.Navigator.GoToGroupsPage();
