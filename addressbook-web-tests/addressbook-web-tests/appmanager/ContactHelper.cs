@@ -1,6 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -53,7 +54,6 @@ namespace WebAddressbookTests
 
         public ContactHelper SelectContact(int index)
         {
-            //driver.FindElement(By.Name("selected[]")).Click();
             driver.FindElement(By.XPath("(//input[@name=\'selected[]\'])[" + (index + 1) + "]")).Click();
             return this;
         }
@@ -287,6 +287,74 @@ namespace WebAddressbookTests
             OpenContactDetails(0);
             string content = driver.FindElement(By.Id("content")).Text;
             return content;
+        }
+
+        public void AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            SelectContactForGroup(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);    
+        }
+
+        private void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        private void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+
+        public void SelectContactForGroup(string contactId)
+        {
+            driver.FindElement(By.Id(contactId)).Click();
+        }
+
+        private void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
+
+        public void DeleteContactFromGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectGroupInFilter(group.Id);
+            SelectContactForGroup(contact.Id);
+            CommitDeleteContactFromGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+        private void SelectGroupInFilter(string id)
+        {
+            driver.FindElement(By.Name("group")).Click();
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByValue(id);
+        }
+
+        private void CommitDeleteContactFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
+        }
+
+        public void ConfirmContactNotInGroupExists(GroupData group)
+        {
+            if (ContactData.GetAll().Count == group.GetContacts().Count)
+            {
+                Create(new ContactData(TestBase.GenerateRandomString(5), TestBase.GenerateRandomString(5)));
+            }
+        }
+
+        public void ConfirmContactInGroupExists(ContactData contact, GroupData group)
+        {
+            if (group.GetContacts().Count == 0)
+            {
+                AddContactToGroup(contact, group);
+            }
         }
     }
 }
