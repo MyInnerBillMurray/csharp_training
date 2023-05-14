@@ -14,19 +14,14 @@ namespace addressbook_tests_autoit
             
             List<GroupData> oldGroups = app.Groups.GetGroupsList();
 
-            GroupData newGroup = new GroupData()
-            {
-                Name = "test"
-            };
-
             app.Groups.Remove(0);
 
             List<GroupData> newGroups = app.Groups.GetGroupsList();
-            oldGroups.Remove(newGroup);
+            oldGroups.RemoveAt(0);
             oldGroups.Sort();
             newGroups.Sort();
 
-            Assert.AreEqual(oldGroups.Count - 1, newGroups.Count);
+            Assert.AreEqual(oldGroups.Count, newGroups.Count);
         }
     }
 }

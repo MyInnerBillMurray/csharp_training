@@ -48,10 +48,9 @@ namespace addressbook_tests_autoit
         public GroupHelper ConfirmGroupExists()
         {
             OpenGroupsDialogue();
-            if (GetGroupsList().Count == 0)
+            if (GetGroupsList().Count == 1)
             {
-                Add(new GroupData()
-                { Name = "test" });
+                Add(new GroupData());
             }
             return this;
         }
@@ -59,12 +58,15 @@ namespace addressbook_tests_autoit
         public void Remove(int number)
         {
             OpenGroupsDialogue();
+            OpenGroupsDialogue();
+            aux.ControlClick(GROUPWINTITLE, "", "WindowsForms10.SysTreeView32.app.0.2c908d51");
             aux.ControlTreeView(GROUPWINTITLE, "", "WindowsForms10.SysTreeView32.app.0.2c908d51", "Select", "#0|#" + number, "");
             aux.ControlClick(GROUPWINTITLE, "", "WindowsForms10.SysTreeView32.app.0.2c908d51");
             aux.Send("{DOWN}");
             aux.ControlClick(GROUPWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d51");
             aux.WinWait("Delete group");
             aux.ControlClick("Delete group", "", "WindowsForms10.BUTTON.app.0.2c908d53");
+            aux.WinWait(GROUPWINTITLE);
             CloseGroupsDialogue();
         }
     }
