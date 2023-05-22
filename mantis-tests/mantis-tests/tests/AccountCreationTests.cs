@@ -7,12 +7,17 @@ using NUnit.Framework;
 
 namespace mantis_tests
 {
-    [TestFixtureSetUp]
-
-    
     [TestFixture]
+
     public class AccountCreationTests : TestBase
     {
+        [TestFixtureSetUp]
+        public void setUpConfig()
+        {
+            app.Ftp.BackupFile("");
+            app.Ftp.Upload("", null);
+        }
+
         [Test]
         public void TestAccountRegistration()
         {
@@ -24,6 +29,12 @@ namespace mantis_tests
             };
 
             app.Registration.Register(account);
+        }
+
+        [TestFixtureTearDown]
+        public void restoreConfig() 
+        {
+            app.Ftp.RestoreBackupFile("");
         }
     }
 }
