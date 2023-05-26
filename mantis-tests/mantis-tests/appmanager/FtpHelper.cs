@@ -14,6 +14,7 @@ namespace mantis_tests
         public FtpHelper(ApplicationManager manager) : base(manager) 
         {
             client = new FtpClient();
+            client.Host = "localhost";
             client.Credentials = new System.Net.NetworkCredential("mantis", "mantis");
             client.Connect();
         }
