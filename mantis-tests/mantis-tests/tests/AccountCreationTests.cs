@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,14 +15,17 @@ namespace mantis_tests
         [TestFixtureSetUp]
         public void setUpConfig()
         {
-            app.Ftp.BackupFile("");
-            app.Ftp.Upload("", null);
+            app.Ftp.BackupFile("/config/config_inc.php");
+            using (Stream localFile = File.Open("config_inc.php", FileMode.Open))
+            {
+                app.Ftp.Upload("/config/config_inc.php", localFile);
+            }
         }
 
         [Test]
         public void TestAccountRegistration()
         {
-            AccountData accountData = new AccountData()
+            AccountData account = new AccountData()
             {
                 Name = "testuser",
                 Password = "password",
@@ -34,7 +38,7 @@ namespace mantis_tests
         [TestFixtureTearDown]
         public void restoreConfig() 
         {
-            app.Ftp.RestoreBackupFile("");
+            app.Ftp.RestoreBackupFile("/config/config_inc.php");
         }
     }
 }

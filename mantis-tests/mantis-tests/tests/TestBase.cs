@@ -16,7 +16,7 @@ namespace mantis_tests
         public static bool PERFORM_LONG_UI_CONTACTS_CHECKS = false;
         
         protected ApplicationManager app;
-        [SetUp]
+        [TestFixtureSetUp]
         public void SetupApplicationManager()
         {
             app = ApplicationManager.GetInstance();
