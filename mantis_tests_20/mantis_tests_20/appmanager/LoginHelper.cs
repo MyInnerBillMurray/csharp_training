@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium.Support.UI;
+using static System.Net.WebRequestMethods;
 
 namespace mantis_tests_20
 {
@@ -15,6 +16,17 @@ namespace mantis_tests_20
         public LoginHelper(ApplicationManager manager) : base(manager)
         {
         }
+
+        public void OpenLoginPage()
+        {
+            if (driver.Url == "http://localhost/mantisbt-2.25.7//login_page.php")
+            {
+                return;
+            }
+
+            driver.Navigate().GoToUrl("http://localhost/mantisbt-2.25.7//login_page.php");
+        }
+
         public void Login(AccountData account)
         {
             if (IsLoggedIn())

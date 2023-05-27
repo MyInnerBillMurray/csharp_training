@@ -19,6 +19,7 @@ namespace mantis_tests_20
         protected ManagementMenuHelper navigator;
 
         public ProjectManagementHelper Projects { get; set; }
+        public APIHelper API { get; private set; }
 
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
@@ -30,6 +31,7 @@ namespace mantis_tests_20
             loginHelper = new LoginHelper(this);
             navigator = new ManagementMenuHelper(this, baseURL);
             Projects = new ProjectManagementHelper(this);
+            API = new APIHelper(this);
         }
 
         ~ApplicationManager()
@@ -49,6 +51,7 @@ namespace mantis_tests_20
                 ApplicationManager newInstance = new ApplicationManager();
                 newInstance.Navigator.GoToHomePage();
                 app.Value = newInstance;
+                newInstance.Auth.OpenLoginPage();
             }
             return app.Value;
         }

@@ -8,26 +8,28 @@ using System.Threading.Tasks;
 namespace mantis_tests_20
 {
     [TestFixture]
-    public class TestNewProjectCreation : AuthTestBase
+    public class ProjectTests : AuthTestBase
     {
         public static IEnumerable<ProjectData> RandomProjectNameProvider()
         {
             List<ProjectData> projects = new List<ProjectData>();
             for (int i = 0; i < 1; i++)
             {
-                projects.Add(new ProjectData(GenerateRandomString(10)));
+                //projects.Add(new ProjectData(GenerateRandomString(10)));
+                projects.Add(new ProjectData("qweqwewqqeqw"));
             }
             return projects;
         }
 
         [Test, TestCaseSource("RandomProjectNameProvider")]
-        public void ProjectCreation(ProjectData project)
+        public void ProjectCreation(ProjectData project, AccountData account)
         {
-            List<ProjectData> oldProjects = app.Projects.GetProjectsList();
+            List<ProjectData> oldProjects = app.API.GetProjectsList(account);
 
             app.Projects.Add(project);
 
-            List<ProjectData> newProjects = app.Projects.GetProjectsList();
+            List<ProjectData> newProjects = app.API.GetProjectsList(account);
+
             oldProjects.Add(project);
             oldProjects.Sort();
             newProjects.Sort();
@@ -36,15 +38,15 @@ namespace mantis_tests_20
         }
 
         [Test]
-        public void ProjectRemoval()
+        public void ProjectRemoval(AccountData account)
         {
             app.Projects.IsProjectPresent();
 
-            List<ProjectData> oldProjects = app.Projects.GetProjectsList();
+            List<ProjectData> oldProjects = app.API.GetProjectsList(account);
 
             app.Projects.Remove(0);
 
-            List<ProjectData> newProjects = app.Projects.GetProjectsList();
+            List<ProjectData> newProjects = app.API.GetProjectsList(account);
             oldProjects.RemoveAt(0);
             oldProjects.Sort();
             newProjects.Sort();
