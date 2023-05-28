@@ -40,7 +40,7 @@ namespace mantis_tests_20
         [Test]
         public void ProjectRemoval(AccountData account)
         {
-            app.Projects.IsProjectPresent();
+            app.API.CreateIfNotExist(account);
 
             List<ProjectData> oldProjects = app.API.GetProjectsList(account);
 
