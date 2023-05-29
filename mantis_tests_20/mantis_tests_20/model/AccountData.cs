@@ -8,6 +8,7 @@ namespace mantis_tests_20
 {
     public class AccountData
     {
+        public AccountData() { }
         public AccountData(string username, string password)
         {
             Username = username;

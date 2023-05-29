@@ -18,14 +18,13 @@ namespace mantis_tests_20
         }
 
         public static Random rnd = new Random();
-
         public static string GenerateRandomString(int max)
         {
             int l = Convert.ToInt32(rnd.NextDouble() * max);
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < l; i++)
             {
-                builder.Append("a" + Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 25 + 65)));
+                builder.Append(Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 65 + 25)));
             }
             return builder.ToString();
         }

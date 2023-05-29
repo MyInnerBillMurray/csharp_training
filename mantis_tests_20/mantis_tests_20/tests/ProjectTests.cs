@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium.DevTools.V113.FedCm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,48 +12,46 @@ namespace mantis_tests_20
     [TestFixture]
     public class ProjectTests : AuthTestBase
     {
-        public static IEnumerable<ProjectData> RandomProjectNameProvider()
+        [Test]
+        public void CreateProject()
         {
-            List<ProjectData> projects = new List<ProjectData>();
-            for (int i = 0; i < 1; i++)
-            {
-                //projects.Add(new ProjectData(GenerateRandomString(10)));
-                projects.Add(new ProjectData("qweqwewqqeqw"));
-            }
-            return projects;
-        }
+            AccountData account = new AccountData("administrator", "root");
 
-        [Test, TestCaseSource("RandomProjectNameProvider")]
-        public void ProjectCreation(ProjectData project, AccountData account)
-        {
-            List<ProjectData> oldProjects = app.API.GetProjectsList(account);
+            List<ProjectData> oldProjectsList = app.Projects.GetProjectsList();
+
+            ProjectData project = new ProjectData(GenerateRandomString(5));
 
             app.Projects.Add(project);
 
-            List<ProjectData> newProjects = app.API.GetProjectsList(account);
+            List<ProjectData> newProjectsList = app.Projects.GetProjectsList();
 
-            oldProjects.Add(project);
-            oldProjects.Sort();
-            newProjects.Sort();
+            Assert.AreEqual(oldProjectsList.Count + 1, newProjectsList.Count);
 
-            Assert.AreEqual(oldProjects, newProjects);
+            oldProjectsList.Add(project);
+            oldProjectsList.Sort();
+            newProjectsList.Sort();
+            Assert.AreEqual(oldProjectsList, newProjectsList);
         }
 
         [Test]
-        public void ProjectRemoval(AccountData account)
+        public void RemoveProject()
         {
-            app.API.CreateIfNotExist(account);
+            AccountData account = new AccountData("administrator", "root");
 
-            List<ProjectData> oldProjects = app.API.GetProjectsList(account);
+            List<ProjectData> oldProjectsList = app.Projects.GetProjectsList();
+
+            app.Projects.IsProjectPresent();
 
             app.Projects.Remove(0);
 
-            List<ProjectData> newProjects = app.API.GetProjectsList(account);
-            oldProjects.RemoveAt(0);
-            oldProjects.Sort();
-            newProjects.Sort();
+            List<ProjectData> newProjectsList = app.Projects.GetProjectsList();
 
-            Assert.AreEqual(oldProjects, newProjects);
+            Assert.AreEqual(oldProjectsList.Count - 1, newProjectsList.Count);
+
+            oldProjectsList.RemoveAt(0);
+            oldProjectsList.Sort();
+            newProjectsList.Sort();
+            Assert.AreEqual(oldProjectsList, newProjectsList);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace mantis_tests_20
             {
                 return false;
             }
-            if (Object.ReferenceEquals(this, other))
+            if (ReferenceEquals(this, other))
             {
                 return true;
             }
@@ -40,7 +40,7 @@ namespace mantis_tests_20
 
         public int CompareTo(ProjectData other)
         {
-            if (Object.ReferenceEquals(other, null))
+            if (ReferenceEquals(other, null))
             {
                 return 1;
             }
