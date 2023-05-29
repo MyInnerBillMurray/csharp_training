@@ -71,6 +71,7 @@ namespace mantis_tests_20
         public ProjectManagementHelper Remove(int v)
         {
             manager.Navigator.GoToManageProjectPage();
+            manager.Navigator.GoToManageProjectPage();
             driver.FindElement(By.XPath("//a[contains(@href,'manage_proj_edit_page.php')]")).Click();
             driver.FindElement(By.CssSelector("input.btn:nth-child(3)")).Click();
             driver.FindElement(By.CssSelector("input.btn")).Click();

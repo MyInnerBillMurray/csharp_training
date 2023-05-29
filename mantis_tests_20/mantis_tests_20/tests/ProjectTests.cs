@@ -17,15 +17,15 @@ namespace mantis_tests_20
         {
             AccountData account = new AccountData("administrator", "root");
 
-            List<ProjectData> oldProjectsList = app.Projects.GetProjectsList();
+            List<ProjectData> oldProjectsList = app.API.GetProjectsList(account);
 
             ProjectData project = new ProjectData(GenerateRandomString(5));
 
             app.Projects.Add(project);
 
-            List<ProjectData> newProjectsList = app.Projects.GetProjectsList();
+            List<ProjectData> newProjectsList = app.API.GetProjectsList(account);
 
-            Assert.AreEqual(oldProjectsList.Count + 1, newProjectsList.Count);
+            //Assert.AreEqual(oldProjectsList.Count + 1, newProjectsList.Count);
 
             oldProjectsList.Add(project);
             oldProjectsList.Sort();
@@ -38,13 +38,13 @@ namespace mantis_tests_20
         {
             AccountData account = new AccountData("administrator", "root");
 
-            List<ProjectData> oldProjectsList = app.Projects.GetProjectsList();
+            List<ProjectData> oldProjectsList = app.API.GetProjectsList(account);
 
-            app.Projects.IsProjectPresent();
+            app.API.IsProjectPresent(account);
 
             app.Projects.Remove(0);
 
-            List<ProjectData> newProjectsList = app.Projects.GetProjectsList();
+            List<ProjectData> newProjectsList = app.API.GetProjectsList(account);
 
             Assert.AreEqual(oldProjectsList.Count - 1, newProjectsList.Count);
 

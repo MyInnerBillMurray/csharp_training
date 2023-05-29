@@ -31,10 +31,10 @@ namespace mantis_tests_20
         {
             List<ProjectData> projectsList = new List<ProjectData>();
 
-            List<Mantis.ProjectData> projects = new List<Mantis.ProjectData>();
-            client.mc_projects_get_user_accessible(account.Username, account.Password);
+            //List<Mantis.ProjectData> projects = new List<Mantis.ProjectData>();
+            var projects = client.mc_projects_get_user_accessible(account.Username, account.Password);
 
-            foreach (Mantis.ProjectData project in projects)
+            foreach (var project in projects)
             {
                 projectsList.Add(new ProjectData()
                 {
